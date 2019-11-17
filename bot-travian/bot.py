@@ -1,44 +1,72 @@
 from selenium import webdriver
 
-def get_element(css_element_address):
-    css_element = browser.find_elements_by_css_selector(css_element_address)
+browser = webdriver.Firefox()
+
+def get_resources_elements(css_element_location):
+    browser.get('https://ts4.lusobrasileiro.travian.com/dorf1.php')
+    pattern = 'html#mainLayout body div#background div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.village1 map#rx area'
+    RESOURCES_FIELD = []
+    for resource_field in browser.find_elements_by_css_selector(pattern):
+        RESOURCES_FIELD.append('bid':resource_field.get_attribute())
+
+def get_element(css_element_location):
+    css_element = browser.find_elements_by_css_selector(css_element_location)
     if type(css_element) == list:
-        print(css_element)
-        return css_element[0]
+        try:
+            if all:
+                return css_element
+            return css_element[0]
+        except Exception as e:
+            print('[-] Elemento não encontrado')
+            return []
+
     return css_element
+
+MAP_ALL_CONSTRUCTIONS = {
+    'URL':'https://ts4.lusobrasileiro.travian.com/build.php?id=',
+    'UPGRADE_BTN':'html#mainLayout body div#background div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.build div  div.roundedCornersBox.big div.upgradeButtonsContainer div.section1 button'
+}
 
 MAP_LOGINPAGE = {
     'URL':'https://ts4.lusobrasileiro.travian.com/login.php',
     'txtUsername':'html#mainLayout body div#background div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.login div.outerLoginBox div.innerLoginBox form table.transparent.loginTable tbody tr.account td input.text',
 
-    'txtPass':'html#mainLayout body div#background div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.build div#build.gid1.level0 div.roundedCornersBox.big div.upgradeButtonsContainer div.section1 button#button5dd0ef8716a31.green.build',
+    'txtPass':'html#mainLayout body div#background div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.login div.outerLoginBox div.innerLoginBox form table.transparent.loginTable tbody tr.pass td input.text',
 
-    'btnLogin':'html#mainLayout body div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.login div.outerLoginBox div.innerLoginBox form table.transparent.loginTable tbody tr.loginButtonRow td button#s1.green'
-
-    
+    'btnLogin':'html#mainLayout body div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.login div.outerLoginBox div.innerLoginBox form table.transparent.loginTable tbody tr.loginButtonRow td button#s1.green'    
 }
 
-MAP_RESOURCES = {
+MAP_RESOURCES_FIELD = {
     'BOSQUE_1':{
-        'URL':'https://ts4.lusobrasileiro.travian.com/build.php?id=1',
-        'UPGRADE_BTN':'html#mainLayout body div#background div#bodyWrapper div#center div#contentOuterContainer.size1 div.contentContainer div#content.build div#build.gid1.level0 div.roundedCornersBox.big div.upgradeButtonsContainer div.section1 button#button5dd0ce2b61106.green.build'
+        'BID':''
     },
-    'BOSQUE_2':'',
-    'BOSQUE_3':'',
-    'BOSQUE_4':''
+    'BOSQUE_2':{
+        'BID':'3'
+    },
+    'BOSQUE_3':{
+        'BID':'14'
+    },
+    'BOSQUE_4':{
+        'BID':'17'
+    }
 }
 
-browser = webdriver.Firefox()
-browser.get('https://ts4.lusobrasileiro.travian.com/login.php')
-MAP_LOGINPAGE['txtUsername'] = get_element(MAP_LOGINPAGE['txtUsername'])
-MAP_LOGINPAGE['txtPass'] = get_element(MAP_LOGINPAGE['txtPass'])
+MAP_QUEUE_TIME = {
+    'CONSTRUCTION':{},
+    'HEADQUARTERS':{}
+}
 
-MAP_LOGINPAGE['txtUsername'].send_keys('SorcererBR')
-MAP_LOGINPAGE['txtPass'].send_keys('VIDA157')
+browser.get(MAP_LOGINPAGE['URL'])
 
-MAP_LOGINPAGE['btnLogin'] = get_element(MAP_LOGINPAGE['btnLogin'])
-MAP_LOGINPAGE['btnLogin'].click()
+## LOGIN TO ACCOUNT ##
+get_element(MAP_LOGINPAGE['txtUsername']).send_keys('SorcererBR')
+get_element(MAP_LOGINPAGE['txtPass']).send_keys('VIDA157')
+get_element(MAP_LOGINPAGE['btnLogin']).click()
 
-browser.get(MAP_RESOURCES['BOSQUE_1']['URL'])
-MAP_RESOURCES['BOSQUE_1']['UPGRADE_BTN'] = get_element(MAP_RESOURCES['BOSQUE_1']['UPGRADE_BTN'])
-MAP_RESOURCES['BOSQUE_1']['UPGRADE_BTN'].click()
+'''
+browser.get(MAP_ALL_CONSTRUCTIONS['URL'] + MAP_RESOURCES_FIELD['BOSQUE_2']['BID'])
+get_element(MAP_ALL_CONSTRUCTIONS['UPGRADE_BTN']).click()
+'''
+campos = ''
+
+var = get_element(campos, all=True)
