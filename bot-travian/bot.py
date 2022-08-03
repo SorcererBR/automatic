@@ -60,7 +60,7 @@ browser.get(MAP_LOGINPAGE['URL'])
 
 ## LOGIN TO ACCOUNT ##
 get_element(MAP_LOGINPAGE['txtUsername']).send_keys('SorcererBR')
-get_element(MAP_LOGINPAGE['txtPass']).send_keys('VIDA157')
+get_element(MAP_LOGINPAGE['txtPass']).send_keys('')
 get_element(MAP_LOGINPAGE['btnLogin']).click()
 
 '''
